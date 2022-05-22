@@ -68,14 +68,59 @@ namespace SSML_K_Logics.K_DigitLogic
                         _priority.Push(_variables[subExpr[i]]);
                     }
                 }
-
-                while (_priority.Count != 1)
+                for (int i = 0; i < subExpr.Length; i++)
                 {
-                    int[] array1 = _priority.Pop();
-                    int[] array2 = _priority.Pop();
-                    int[] result = _operation.DisjuctionCalculate(array1, array2);
-                    _priority.Push(result);
+                    string param;
+                    if (IsVariable(subExpr[i], out param))
+                    {
+                        _variables[$"{subExpr[i]}_new"] = new int[_countRow];
+                        for (int k = 0; k < _countRow; k++)
+                        {
+                            _variables[$"{subExpr[i]}_new"] = _variables[param];
+                        }
+                        _priority.Push(_variables[$"{subExpr[i]}_new"]);
+                    }
                 }
+            }
+            else
+            {
+                int constant = 0;
+                int param; string arg;
+                if (IsConstants(expression, out constant))
+                {
+                    _variables[expression] = new int[_countRow];
+                    for (int k = 0; k < _countRow; k++)
+                    {
+                        _variables[expression][k] = constant;
+                    }
+                    _priority.Push(_variables[expression]);
+                }
+                else if (IsCharacteristicFunc(expression, out param, out arg))
+                {
+                    _variables[expression] = new int[_countRow];
+                    for (int k = 0; k < _countRow; k++)
+                    {
+                        _variables[expression] = _operation.FirstCharacteristicFunctionCalculate(_variables[arg], param);
+                    }
+                    _priority.Push(_variables[expression]);
+                }
+                else if (IsVariable(expression, out arg))
+                {
+                    _variables[$"{expression}_new"] = new int[_countRow];
+                    for (int k = 0; k < _countRow; k++)
+                    {
+                        _variables[$"{expression}_new"] = _variables[arg];
+                    }
+                    _priority.Push(_variables[$"{expression}_new"]);
+                }
+            }
+
+            while (_priority.Count != 1)
+            {
+                int[] array1 = _priority.Pop();
+                int[] array2 = _priority.Pop();
+                int[] result = _operation.DisjuctionCalculate(array1, array2);
+                _priority.Push(result);
             }
         }
 
@@ -125,6 +170,20 @@ namespace SSML_K_Logics.K_DigitLogic
             }
 
             return flag;
+        }
+
+        private bool IsVariable(string str, out string param)
+        {
+            param = "";
+            if (str.Length == 1)
+            {
+                if (Convert.ToChar(str) == 'x' || Convert.ToChar(str) == 'y')
+                {
+                    param = str;
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

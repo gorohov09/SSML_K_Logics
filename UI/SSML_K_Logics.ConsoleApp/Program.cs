@@ -11,7 +11,7 @@ namespace SSML_K_Logics.App.ConsoleApp
             Disjunction dis = new Disjunction();
             FirstCharacteristicFunction func = new FirstCharacteristicFunction();
             Calculation calc = new Calculation(3, 2, dis, func);
-            calc.Calculate("j_1[x]vj_2[y]v2");
+            calc.Calculate("x");
         }
     }
 }
