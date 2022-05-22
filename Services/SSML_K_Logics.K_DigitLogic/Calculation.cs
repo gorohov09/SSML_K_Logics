@@ -39,6 +39,16 @@ namespace SSML_K_Logics.K_DigitLogic
 
         public void Calculate(string expression)
         {
+            int index_1 = -1; int index_2 = -1;
+            index_1 = expression.IndexOf('(');
+            index_2 = expression.LastIndexOf(')');
+            if (index_1 != -1)
+            {
+                string new_expr = expression.Substring(index_1 + 1, index_2 - index_1 - 1);
+                expression = expression.Replace(expression.Substring(index_1, index_2 - index_1 + 1), "");
+                Calculate(new_expr);
+            }
+
             if (expression.Contains("v"))
             {
                 string[] subExpr = expression.Split('v');
