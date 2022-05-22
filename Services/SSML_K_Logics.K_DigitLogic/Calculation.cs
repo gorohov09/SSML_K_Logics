@@ -134,6 +134,23 @@ namespace SSML_K_Logics.K_DigitLogic
             }
         }
 
+        public void PrintTable()
+        {
+            int[] arrayResult = _priority.Pop();
+            if (_n == 1)
+            {
+
+            }
+            else
+            {
+                Console.WriteLine("X - Y - Result");
+                for (int i = 0; i < _countRow; i++)
+                {
+                    Console.WriteLine($"{_variables["x"][i]} - {_variables["y"][i]} -    {arrayResult[i]}");
+                }
+            }
+        }
+
         private void FillArrayVariables()
         {
             if (_n == 1)
@@ -175,7 +192,7 @@ namespace SSML_K_Logics.K_DigitLogic
                 {
                     flag = true;
                     param = int.Parse(Convert.ToString(str[i + 2]));
-                    arg = Char.ToString(str[i + 4]);
+                    arg = char.ToString(str[i + 4]);
                 }
             }
 
