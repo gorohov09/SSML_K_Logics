@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace SSML_K_Logics.K_DigitLogic
 {
-    public class StringWorker
+    public class StringHelper
     {
         private readonly string _stringExpression;
 
-        public StringWorker(string stringExpression)
+        public StringHelper(string stringExpression)
         {
             _stringExpression = stringExpression;
         }
