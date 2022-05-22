@@ -2,10 +2,6 @@
 {
     public class FirstCharacteristicFunction
     {
-        private readonly int _i;
-
-        public FirstCharacteristicFunction(int i) { this._i = i; }
-
-        public int Calculate(int x) => x == _i ? 1 : 0;    
+        public int Calculate(int x, int param) => x == param ? 1 : 0;    
     }
 }

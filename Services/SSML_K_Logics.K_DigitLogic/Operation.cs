@@ -25,12 +25,12 @@ namespace SSML_K_Logics.K_DigitLogic
             return result;
         }
 
-        public int[] FirstCharacteristicFunctionCalculate(int[] arg1)
+        public int[] FirstCharacteristicFunctionCalculate(int[] arg1, int param)
         {
             int[] result = new int[arg1.Length];
             for (int i = 0; i < arg1.Length; i++)
             {
-                result[i] = _firstCharacteristicFunction.Calculate(arg1[i]);
+                result[i] = _firstCharacteristicFunction.Calculate(arg1[i], param);
             }
             return result;
         }
