@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SSML_K_Logics.K_DigitLogic.Function;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,14 +19,64 @@ namespace SSML_K_Logics.K_DigitLogic
         /// </summary>
         private readonly int _n;
 
+        private int _countRow;
+
         private Dictionary<string, int[]> _variables;
 
-        public Calculation(int k, int n) 
+        private Operation _operation;
+
+        private Stack<int[]> _priority;
+
+        public Calculation(int k, int n, Disjunction disjunction, FirstCharacteristicFunction func) 
         { 
             _k = k; 
             _n = n;
             _variables = new Dictionary<string, int[]>();
+            _operation = new Operation(disjunction, func);
+            _priority = new Stack<int[]>();
             FillArrayVariables();
+        }
+
+        public void Calculate(string expression)
+        {
+            if (expression.Contains("v"))
+            {
+                string[] subExpr = expression.Split('v');
+                for (int i = 0; i < subExpr.Length; i++)
+                {
+                    int constant = 0;
+                    if (IsConstants(subExpr[i], out constant))
+                    {
+                        _variables[subExpr[i]] = new int[_countRow];
+                        for (int k = 0; k < _countRow; k++)
+                        {
+                            _variables[subExpr[i]][k] = constant;
+                        }
+                        _priority.Push(_variables[subExpr[i]]);
+                    }
+                }
+                for (int i = 0; i < subExpr.Length; i++)
+                {
+                    int param; string arg;
+                    if (IsCharacteristicFunc(subExpr[i], out param, out arg))
+                    {
+                        _variables[subExpr[i]] = new int[_countRow];
+                        for (int k = 0; k < _countRow; k++)
+                        {
+                            _variables[subExpr[i]] = _operation.FirstCharacteristicFunctionCalculate(_variables[arg], param);
+                        }
+                        _priority.Push(_variables[subExpr[i]]);
+                    }
+                }
+
+                while (_priority.Count != 1)
+                {
+                    int[] array1 = _priority.Pop();
+                    int[] array2 = _priority.Pop();
+                    int[] result = _operation.DisjuctionCalculate(array1, array2);
+                    _priority.Push(result);
+                }
+            }
         }
 
         private void FillArrayVariables()
@@ -34,6 +85,7 @@ namespace SSML_K_Logics.K_DigitLogic
             {
                 _variables["x"] = new int[_k];
                 for (int i = 0; i < _variables["x"].Length; i++) { _variables["x"][i] = i; }
+                _countRow = _k;
             }
             else
             {
@@ -48,7 +100,31 @@ namespace SSML_K_Logics.K_DigitLogic
                         index++;
                     }
                 }
+                _countRow = _k * _k;
             }
+        }
+
+        private bool IsConstants(string str, out int constant)
+        {
+            return int.TryParse(str, out constant);
+        }
+
+        private bool IsCharacteristicFunc(string str, out int param, out string arg)
+        {
+            bool flag = false;
+            param = 0;
+            arg = "";
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (str[i] == 'j')
+                {
+                    flag = true;
+                    param = int.Parse(Convert.ToString(str[i + 2]));
+                    arg = Char.ToString(str[i + 4]);
+                }
+            }
+
+            return flag;
         }
     }
 }

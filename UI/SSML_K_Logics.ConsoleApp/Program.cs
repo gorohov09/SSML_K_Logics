@@ -1,4 +1,5 @@
 ﻿using SSML_K_Logics.K_DigitLogic;
+using SSML_K_Logics.K_DigitLogic.Function;
 using System;
 
 namespace SSML_K_Logics.App.ConsoleApp
@@ -7,8 +8,10 @@ namespace SSML_K_Logics.App.ConsoleApp
     {
         static void Main(string[] args)
         {
-            Calculation calc = new Calculation(3, 2);
-
+            Disjunction dis = new Disjunction();
+            FirstCharacteristicFunction func = new FirstCharacteristicFunction();
+            Calculation calc = new Calculation(3, 2, dis, func);
+            calc.Calculate("j_1[x]vj_2[y]v2");
         }
     }
 }
