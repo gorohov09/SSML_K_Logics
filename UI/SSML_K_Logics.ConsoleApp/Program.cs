@@ -10,8 +10,30 @@ namespace SSML_K_Logics.App.ConsoleApp
         {
             Disjunction dis = new Disjunction();
             FirstCharacteristicFunction func = new FirstCharacteristicFunction();
-            Calculation calc = new Calculation(4, 1, dis, func);
-            calc.Calculate("j_1[x]");
+
+            Console.Write("Введите значение k: ");
+            int k = int.Parse(Console.ReadLine());
+
+            Console.Write("Введите значение n: ");
+            int n = int.Parse(Console.ReadLine());
+
+            Console.Write("Введите формулу в аналитическом виде: ");
+            string expression = Console.ReadLine();
+
+            StringHelper stringHelper = new StringHelper(expression);
+
+            expression = stringHelper.Clear(expression);
+
+            if (stringHelper.IsCorrect(k))
+            {
+                Calculation calculation = new Calculation(k, n, dis, func);
+                calculation.Calculate(expression);
+                calculation.PrintTable();
+            }
+            else
+            {
+
+            }
         }
     }
 }

@@ -17,6 +17,8 @@ namespace SSML_K_Logics.K_DigitLogic
 
         public bool IsCorrect(int k) => CheckBrackets() && CheckOperation() && CheckIndex(k);
 
+        public string Clear(string str) => str.Replace(" ", "");
+
         private bool CheckBrackets()
         {
             return _stringExpression.Count(ch => ch == '(' || ch == ')') % 2 == 0;
@@ -26,7 +28,7 @@ namespace SSML_K_Logics.K_DigitLogic
         {
             for (int i = 0; i < _stringExpression.Length; i++)
             {
-                if (_stringExpression[i] == 'v' && _stringExpression[i] == 'v')
+                if (_stringExpression[i] == 'v' && _stringExpression[i+1] == 'v')
                     return false;
             }
             return true;
