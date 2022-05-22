@@ -6,6 +6,6 @@
 
         public FirstCharacteristicFunction(int i) { this._i = i; }
 
-        public int Result(int x) => x == _i ? 1 : 0;    
+        public int Calculate(int x) => x == _i ? 1 : 0;    
     }
 }
