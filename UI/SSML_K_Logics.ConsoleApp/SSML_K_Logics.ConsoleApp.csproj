@@ -5,4 +5,8 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Services\SSML_K_Logics.K_DigitLogic\SSML_K_Logics.K_DigitLogic.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SSML_K_Logics.K_DigitLogic;
+using System;
 
 namespace SSML_K_Logics.App.ConsoleApp
 {
@@ -6,7 +7,8 @@ namespace SSML_K_Logics.App.ConsoleApp
     {
         static void Main(string[] args)
         {
-            
+            Calculation calc = new Calculation(3, 2);
+
         }
     }
 }
