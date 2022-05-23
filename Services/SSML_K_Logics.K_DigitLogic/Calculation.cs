@@ -133,9 +133,44 @@ namespace SSML_K_Logics.K_DigitLogic
             }
         }
 
+        public string FirstForm => CalculateFirstForm();
+
+        private string CalculateFirstForm()
+        {
+            int[] arrayResult = _priority.Peek();
+            StringBuilder sb = new StringBuilder("f(x) = ");
+
+            if (_n == 1)
+            {
+                for (int i = 0; i < _countRow; i++)
+                {
+                    if (arrayResult[i] == 0) 
+                        continue;
+                    else if (arrayResult[i] == _k - 1)
+                        sb.Append($" J_{_variables["x"][i]}(x) v");
+                    else 
+                        sb.Append($" {arrayResult[i]}&J_{_variables["x"][i]}(x) v");
+                }
+            }
+            else
+            {
+                for (int i = 0; i < _countRow; i++)
+                {
+                    if (arrayResult[i] == 0)
+                        continue;
+                    else if (arrayResult[i] == _k - 1)
+                        sb.Append($" J_{_variables["x"][i]}(x)&J_{_variables["y"][i]}(y) v");
+                    else
+                        sb.Append($" {arrayResult[i]}&J_{_variables["x"][i]}(x)&J_{_variables["y"][i]}(y) v");
+                }
+            }
+            sb.Remove(sb.Length - 2, 2);
+            return sb.ToString();
+        }
+
         public void PrintTable()
         {
-            int[] arrayResult = _priority.Pop();
+            int[] arrayResult = _priority.Peek();
             if (_n == 1)
             {
                 Console.WriteLine("X - Result");

@@ -25,6 +25,10 @@ namespace SSML_K_Logics.App.ConsoleApp
                 Calculation calculation = new Calculation(k, n);
                 calculation.Calculate(expression);
                 calculation.PrintTable();
+
+                Console.WriteLine("Первая форма:");
+                string first_Form = calculation.FirstForm;
+                Console.WriteLine(first_Form);
             }
             else
             {
