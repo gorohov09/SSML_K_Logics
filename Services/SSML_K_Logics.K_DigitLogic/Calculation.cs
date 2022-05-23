@@ -1,5 +1,4 @@
-﻿using SSML_K_Logics.K_DigitLogic.Function;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,12 +26,12 @@ namespace SSML_K_Logics.K_DigitLogic
 
         private Stack<int[]> _priority;
 
-        public Calculation(int k, int n, Disjunction disjunction, FirstCharacteristicFunction func) 
+        public Calculation(int k, int n) 
         { 
             _k = k; 
             _n = n;
             _variables = new Dictionary<string, int[]>();
-            _operation = new Operation(disjunction, func);
+            _operation = new Operation();
             _priority = new Stack<int[]>();
             FillArrayVariables();
         }

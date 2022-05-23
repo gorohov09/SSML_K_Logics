@@ -1,5 +1,4 @@
 ﻿using SSML_K_Logics.K_DigitLogic;
-using SSML_K_Logics.K_DigitLogic.Function;
 using System;
 
 namespace SSML_K_Logics.App.ConsoleApp
@@ -8,9 +7,6 @@ namespace SSML_K_Logics.App.ConsoleApp
     {
         static void Main(string[] args)
         {
-            Disjunction dis = new Disjunction();
-            FirstCharacteristicFunction func = new FirstCharacteristicFunction();
-
             Console.Write("Введите значение k: ");
             int k = int.Parse(Console.ReadLine());
 
@@ -26,7 +22,7 @@ namespace SSML_K_Logics.App.ConsoleApp
 
             if (stringHelper.IsCorrect(k))
             {
-                Calculation calculation = new Calculation(k, n, dis, func);
+                Calculation calculation = new Calculation(k, n);
                 calculation.Calculate(expression);
                 calculation.PrintTable();
             }
