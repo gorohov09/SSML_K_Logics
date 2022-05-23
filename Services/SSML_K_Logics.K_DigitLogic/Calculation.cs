@@ -139,7 +139,11 @@ namespace SSML_K_Logics.K_DigitLogic
             int[] arrayResult = _priority.Pop();
             if (_n == 1)
             {
-
+                Console.WriteLine("X - Result");
+                for (int i = 0; i < _countRow; i++)
+                {
+                    Console.WriteLine($"{_variables["x"][i]} -    {arrayResult[i]}");
+                }
             }
             else
             {

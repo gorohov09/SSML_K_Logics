@@ -15,7 +15,12 @@ namespace SSML_K_Logics.K_DigitLogic
             _stringExpression = stringExpression;
         }
 
-        public bool IsCorrect(int k) => CheckBrackets() && CheckOperation() && CheckIndex(k);
+        public bool IsCorrect(int k) => 
+            CheckBrackets() 
+            && CheckOperation() 
+            && CheckIndex(k) 
+            && CheckNumbers(k)
+            && CheckPositiveNumbers();
 
         public string Clear(string str) => str.Replace(" ", "");
 
@@ -46,6 +51,20 @@ namespace SSML_K_Logics.K_DigitLogic
                 }
             }
             return true;
+        }
+
+        private bool CheckNumbers(int k)
+        {
+            return _stringExpression.Where(ch => ch >= '0' && ch <= '9')
+                .Select(ch => Convert.ToInt32(ch))
+                .Any(number => number >= k);
+        }
+
+        private bool CheckPositiveNumbers()
+        {
+            return _stringExpression.Where(ch => ch >= '0' && ch <= '9')
+                .Select(ch => Convert.ToInt32(ch))
+                .Any(number => number < 0);
         }
     }
 }
