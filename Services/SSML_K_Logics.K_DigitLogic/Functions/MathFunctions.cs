@@ -8,8 +8,12 @@ namespace SSML_K_Logics.K_DigitLogic.Functions
 {
     public class MathFunctions
     {
-        public static int CalculateDisjunction(int x, int y) => Math.Max(x, y);
+        public static int CalculateDiv(int x, int y)
+        {
+            if (x >= y) return x - y;
+            else return 0;
+        }
 
-        public static int CalculateFirstCharFunc(int x, int param) => x == param ? 1 : 0;
+        public static int CalculatePost(int x, int param) => (x + 1) % param;
     }
 }

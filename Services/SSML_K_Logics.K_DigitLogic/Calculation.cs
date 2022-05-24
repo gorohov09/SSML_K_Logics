@@ -24,7 +24,7 @@ namespace SSML_K_Logics.K_DigitLogic
 
         private Operation _operation;
 
-        private Stack<int[]> _priority;
+        private Queue<int[]> _priority;
 
         public Calculation(int k, int n) 
         { 
@@ -32,7 +32,7 @@ namespace SSML_K_Logics.K_DigitLogic
             _n = n;
             _variables = new Dictionary<string, int[]>();
             _operation = new Operation();
-            _priority = new Stack<int[]>();
+            _priority = new Queue<int[]>();
             FillArrayVariables();
         }
 
@@ -48,9 +48,9 @@ namespace SSML_K_Logics.K_DigitLogic
                 Calculate(new_expr);
             }
 
-            if (expression.Contains("v"))
+            if (expression.Contains("/"))
             {
-                string[] subExpr = expression.Split('v');
+                string[] subExpr = expression.Split('/');
                 for (int i = 0; i < subExpr.Length; i++)
                 {
                     int constant = 0;
@@ -61,20 +61,20 @@ namespace SSML_K_Logics.K_DigitLogic
                         {
                             _variables[subExpr[i]][k] = constant;
                         }
-                        _priority.Push(_variables[subExpr[i]]);
+                        _priority.Enqueue(_variables[subExpr[i]]);
                     }
                 }
                 for (int i = 0; i < subExpr.Length; i++)
                 {
                     int param; string arg;
-                    if (IsCharacteristicFunc(subExpr[i], out param, out arg))
+                    if (IsPostFunc(subExpr[i], out arg))
                     {
                         _variables[subExpr[i]] = new int[_countRow];
                         for (int k = 0; k < _countRow; k++)
                         {
-                            _variables[subExpr[i]] = _operation.FirstCharacteristicFunctionCalculate(_variables[arg], param);
+                            _variables[subExpr[i]] = _operation.PostCalculate(_variables[arg], _k);
                         }
-                        _priority.Push(_variables[subExpr[i]]);
+                        _priority.Enqueue(_variables[subExpr[i]]);
                     }
                 }
                 for (int i = 0; i < subExpr.Length; i++)
@@ -87,7 +87,7 @@ namespace SSML_K_Logics.K_DigitLogic
                         {
                             _variables[$"{subExpr[i]}_new"] = _variables[param];
                         }
-                        _priority.Push(_variables[$"{subExpr[i]}_new"]);
+                        _priority.Enqueue(_variables[$"{subExpr[i]}_new"]);
                     }
                 }
             }
@@ -102,16 +102,16 @@ namespace SSML_K_Logics.K_DigitLogic
                     {
                         _variables[expression][k] = constant;
                     }
-                    _priority.Push(_variables[expression]);
+                    _priority.Enqueue(_variables[expression]);
                 }
-                else if (IsCharacteristicFunc(expression, out param, out arg))
+                else if (IsPostFunc(expression, out arg))
                 {
                     _variables[expression] = new int[_countRow];
                     for (int k = 0; k < _countRow; k++)
                     {
-                        _variables[expression] = _operation.FirstCharacteristicFunctionCalculate(_variables[arg], param);
+                        _variables[expression] = _operation.PostCalculate(_variables[arg], _k);
                     }
-                    _priority.Push(_variables[expression]);
+                    _priority.Enqueue(_variables[expression]);
                 }
                 else if (IsVariable(expression, out arg))
                 {
@@ -120,16 +120,16 @@ namespace SSML_K_Logics.K_DigitLogic
                     {
                         _variables[$"{expression}_new"] = _variables[arg];
                     }
-                    _priority.Push(_variables[$"{expression}_new"]);
+                    _priority.Enqueue(_variables[$"{expression}_new"]);
                 }
             }
 
             while (_priority.Count != 1)
             {
-                int[] array1 = _priority.Pop();
-                int[] array2 = _priority.Pop();
-                int[] result = _operation.DisjuctionCalculate(array1, array2);
-                _priority.Push(result);
+                int[] array1 = _priority.Dequeue();
+                int[] array2 = _priority.Dequeue();
+                int[] result = _operation.DivCalculate(array1, array2);
+                _priority.Enqueue(result);
             }
         }
 
@@ -272,18 +272,16 @@ namespace SSML_K_Logics.K_DigitLogic
             return int.TryParse(str, out constant);
         }
 
-        private bool IsCharacteristicFunc(string str, out int param, out string arg)
+        private bool IsPostFunc(string str, out string arg)
         {
             bool flag = false;
-            param = 0;
             arg = "";
             for (int i = 0; i < str.Length; i++)
             {
-                if (str[i] == 'j')
+                if (str[i] == '-')
                 {
                     flag = true;
-                    param = int.Parse(Convert.ToString(str[i + 2]));
-                    arg = char.ToString(str[i + 4]);
+                    arg = char.ToString(str[i + 1]);
                 }
             }
 
