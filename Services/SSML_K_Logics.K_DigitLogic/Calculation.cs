@@ -215,25 +215,31 @@ namespace SSML_K_Logics.K_DigitLogic
             return sb.ToString();
         }
 
-        public void PrintTable()
+        public string PrintTable()
         {
+            StringBuilder sb = new StringBuilder();
             int[] arrayResult = _priority.Peek();
             if (_n == 1)
             {
+                sb.Append("X - Result\n");
                 Console.WriteLine("X - Result");
                 for (int i = 0; i < _countRow; i++)
                 {
                     Console.WriteLine($"{_variables["x"][i]} -    {arrayResult[i]}");
+                    sb.Append($"{_variables["x"][i]} -    {arrayResult[i]}\n");
                 }
             }
             else
             {
+                sb.Append("X - Y - Result");
                 Console.WriteLine("X - Y - Result");
                 for (int i = 0; i < _countRow; i++)
                 {
                     Console.WriteLine($"{_variables["x"][i]} - {_variables["y"][i]} -    {arrayResult[i]}");
+                    sb.Append($"{_variables["x"][i]} - {_variables["y"][i]} -    {arrayResult[i]}\n");
                 }
             }
+            return sb.ToString();
         }
 
         private void FillArrayVariables()
