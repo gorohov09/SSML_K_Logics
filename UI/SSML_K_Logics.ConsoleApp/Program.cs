@@ -1,5 +1,7 @@
 ﻿using SSML_K_Logics.K_DigitLogic;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SSML_K_Logics.App.ConsoleApp
 {
@@ -20,20 +22,32 @@ namespace SSML_K_Logics.App.ConsoleApp
 
             expression = stringHelper.Clear(expression);
 
-            if (stringHelper.IsCorrect(k))
+            while (true)
             {
-                Calculation calculation = new Calculation(k, n);
-                calculation.Calculate(expression);
-                calculation.PrintTable();
+                if (stringHelper.IsCorrect(k))
+                {
+                    Calculation calculation = new Calculation(k, n);
+                    calculation.Calculate(expression);
+                    calculation.PrintTable();
 
-                Console.WriteLine("Первая форма:");
-                string first_Form = calculation.FirstForm;
-                Console.WriteLine(first_Form);
-            }
-            else
-            {
+                    Console.WriteLine("Первая форма:");
+                    string first_Form = calculation.FirstForm;
+                    Console.WriteLine(first_Form);
 
+                    Console.WriteLine("Принадлежность классу функций, сохраняющих множество E");
+                    Console.Write("Введи E = ");
+                    IEnumerable<int> numbers = Console.ReadLine().Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries).Select(x => Convert.ToInt32(x)).Distinct();
+                    string inform = calculation.CalculatePreserveSet(numbers);
+                    Console.WriteLine(inform);
+                    break;
+
+                }
+                else
+                {
+                    Console.WriteLine("Введите корректно формулу!");
+                }
             }
+            Console.WriteLine("Программа завершила работу!");
         }
     }
 }

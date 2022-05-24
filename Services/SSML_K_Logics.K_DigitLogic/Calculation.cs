@@ -168,6 +168,53 @@ namespace SSML_K_Logics.K_DigitLogic
             return sb.ToString();
         }
 
+        public string CalculatePreserveSet(IEnumerable<int> hashSet)
+        {
+            if (hashSet.Any(x => x >= _k))
+                throw new ArgumentException("В множестве содержится число большее или равное k");
+            int[] arrayResult = _priority.Peek();
+            StringBuilder sb = new StringBuilder("E = { ");
+            foreach (var x in hashSet)
+            {
+                sb.Append($"{x}, ");
+            }
+            sb.Remove(sb.Length - 2, 1);
+            sb.Append("}");
+
+            bool flag = true;
+            if (_n == 1)
+            {
+                for (int i = 0; i < _countRow; i++)
+                {
+                    if (hashSet.Contains(_variables["x"][i]))
+                    {
+                        if (!hashSet.Contains(arrayResult[i]))
+                            flag = false; break;
+                        
+                    } 
+                }
+            }
+            else
+            {
+                for (int i = 0; i < _countRow; i++)
+                {
+                    if (hashSet.Contains(_variables["x"][i]) && hashSet.Contains(_variables["y"][i]))
+                    {
+                        if (!hashSet.Contains(arrayResult[i]))
+                            flag = false; break;
+
+                    }
+                }
+            }
+
+            if (flag)
+                sb.AppendLine("\nf(x) принадлежит E");
+            else
+                sb.AppendLine("\nf(x) не принадлежит E");
+
+            return sb.ToString();
+        }
+
         public void PrintTable()
         {
             int[] arrayResult = _priority.Peek();

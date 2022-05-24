@@ -19,7 +19,7 @@ namespace SSML_K_Logics.K_DigitLogic
             CheckBrackets() 
             && CheckOperation() 
             && CheckIndex(k) 
-            && CheckNumbers(k)
+            //&& CheckNumbers(k)
             && !CheckNegativeNumbers();
 
         public string Clear(string str) => str.Replace(" ", "");
@@ -53,9 +53,9 @@ namespace SSML_K_Logics.K_DigitLogic
             return true;
         }
 
-        private bool CheckNumbers(int k) => _stringExpression.Where(ch => ch >= '0' && ch <= '9')
-                .Select(ch => Convert.ToInt32(ch))
-                .Any(number => number >= k);
+        //private bool CheckNumbers(int k) => _stringExpression.Where(ch => ch >= '0' && ch <= '9')
+        //        .Select(ch => Convert.ToInt32(ch))
+        //        .Any(number => number >= k);
 
         private bool CheckNegativeNumbers() => _stringExpression.Where(ch => ch >= '0' && ch <= '9')
                 .Select(ch => Convert.ToInt32(ch))
