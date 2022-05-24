@@ -231,7 +231,7 @@ namespace SSML_K_Logics.K_DigitLogic
             }
             else
             {
-                sb.Append("X - Y - Result");
+                sb.Append("X - Y - Result\n");
                 Console.WriteLine("X - Y - Result");
                 for (int i = 0; i < _countRow; i++)
                 {
