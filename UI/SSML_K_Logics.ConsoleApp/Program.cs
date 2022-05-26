@@ -81,6 +81,12 @@ namespace SSML_K_Logics.App.ConsoleApp
                 }
             }
             Console.WriteLine("Программа завершила работу!");
+
+            Console.WriteLine("dddd");
+            Console.WriteLine("dddd");
+            Console.WriteLine("dddd");
+            Console.WriteLine("dddd");
+            Console.WriteLine("dddd");
         }
     }
 }
