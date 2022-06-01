@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SSML_K_Logics.K_DigitLogic.Functions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -48,31 +49,44 @@ namespace SSML_K_Logics.K_DigitLogic
                 Calculate(new_expr);
             }
 
-            if (expression.Contains("v"))
+            if (expression.Contains("*"))
             {
-                string[] subExpr = expression.Split('v');
+                string[] subExpr = expression.Split('*');
                 for (int i = 0; i < subExpr.Length; i++)
                 {
                     int constant = 0;
                     if (IsConstants(subExpr[i], out constant))
                     {
-                        _variables[subExpr[i]] = new int[_countRow];
-                        for (int k = 0; k < _countRow; k++)
+                        if (constant > 0)
                         {
-                            _variables[subExpr[i]][k] = constant;
+                            _variables[subExpr[i]] = new int[_countRow];
+                            for (int k = 0; k < _countRow; k++)
+                            {
+                                _variables[subExpr[i]][k] = constant;
+                            }
+                            _priority.Push(_variables[subExpr[i]]);
                         }
-                        _priority.Push(_variables[subExpr[i]]);
+                        else
+                        {
+                            _variables[subExpr[i][1].ToString()] = new int[_countRow];
+                            for (int k = 0; k < _countRow; k++)
+                            {
+                                _variables[subExpr[i][1].ToString()][k] = MathFunctions.CalculateUnaryNegation(constant, _k);
+                            }
+                            _priority.Push(_variables[subExpr[i][1].ToString()]);
+                        }
+                        
                     }
                 }
                 for (int i = 0; i < subExpr.Length; i++)
                 {
-                    int param; string arg;
-                    if (IsCharacteristicFunc(subExpr[i], out param, out arg))
+                    string arg;
+                    if (IsUnaryNegation(subExpr[i], out arg))
                     {
                         _variables[subExpr[i]] = new int[_countRow];
                         for (int k = 0; k < _countRow; k++)
                         {
-                            _variables[subExpr[i]] = _operation.FirstCharacteristicFunctionCalculate(_variables[arg], param);
+                            _variables[subExpr[i]] = _operation.UnaryNegationCalculate(_variables[arg], _k);
                         }
                         _priority.Push(_variables[subExpr[i]]);
                     }
@@ -104,12 +118,12 @@ namespace SSML_K_Logics.K_DigitLogic
                     }
                     _priority.Push(_variables[expression]);
                 }
-                else if (IsCharacteristicFunc(expression, out param, out arg))
+                else if (IsUnaryNegation(expression, out arg))
                 {
                     _variables[expression] = new int[_countRow];
                     for (int k = 0; k < _countRow; k++)
                     {
-                        _variables[expression] = _operation.FirstCharacteristicFunctionCalculate(_variables[arg], param);
+                        _variables[expression] = _operation.UnaryNegationCalculate(_variables[arg], _k);
                     }
                     _priority.Push(_variables[expression]);
                 }
@@ -128,8 +142,14 @@ namespace SSML_K_Logics.K_DigitLogic
             {
                 int[] array1 = _priority.Pop();
                 int[] array2 = _priority.Pop();
-                int[] result = _operation.DisjuctionCalculate(array1, array2);
+                int[] result = _operation.MultiplicationCalculate(array1, array2, _k);
                 _priority.Push(result);
+            }
+
+            if (expression.Contains("-") && (expression.Length == 1))
+            {
+                var arr = _priority.Pop();
+                _priority.Push(_operation.UnaryNegationCalculate(arr, _k));
             }
         }
 
@@ -272,18 +292,19 @@ namespace SSML_K_Logics.K_DigitLogic
             return int.TryParse(str, out constant);
         }
 
-        private bool IsCharacteristicFunc(string str, out int param, out string arg)
+        private bool IsUnaryNegation(string str, out string arg)
         {
-            bool flag = false;
-            param = 0;
             arg = "";
+            bool flag = false;
+            if (str.Length == 1 && str.Contains('-'))
+                return false;
+
             for (int i = 0; i < str.Length; i++)
             {
-                if (str[i] == 'j')
+                if (str[i] == '-')
                 {
                     flag = true;
-                    param = int.Parse(Convert.ToString(str[i + 2]));
-                    arg = char.ToString(str[i + 4]);
+                    arg = char.ToString(str[i + 1]);
                 }
             }
 

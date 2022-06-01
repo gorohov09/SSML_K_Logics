@@ -33,60 +33,66 @@ namespace SSML_K_Logics.App.ConsoleApp
 
             expression = stringHelper.Clear(expression);
 
-            while (true)
-            {
-                if (stringHelper.IsCorrect(k))
-                {
-                    string time = DateTime.Now.ToString();
-                    using (StreamWriter writer = new StreamWriter(Constants.PATH_FILE_TXT, true))
-                    {
-                        writer.WriteLine($"ВРЕМЯ: {time}\n");
-                        writer.WriteLine($"Исходная формула: {expression}\n");
-                    }
+            Calculation calculation = new Calculation(k, n);
+            calculation.Calculate(expression);
 
-                    Calculation calculation = new Calculation(k, n);
-                    calculation.Calculate(expression);
-                    string information = calculation.PrintTable();
-                    using (StreamWriter writer = new StreamWriter(Constants.PATH_FILE_TXT, true))
-                    {
-                        writer.WriteLine(information);
-                    }
+            Console.WriteLine(calculation.PrintTable());
 
-                    Console.WriteLine("Первая форма:");
-                    string first_Form = calculation.FirstForm;
-                    Console.WriteLine(first_Form);
-                    using (StreamWriter writer = new StreamWriter(Constants.PATH_FILE_TXT, true))
-                    {
-                        writer.WriteLine("Первая форма: ");
-                        writer.WriteLine(first_Form);
-                    }
 
-                    Console.WriteLine("Принадлежность классу функций, сохраняющих множество E: ");
-                    Console.Write("Введи E = ");
-                    IEnumerable<int> numbers = Console.ReadLine().Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries).Select(x => Convert.ToInt32(x)).Distinct();
-                    string inform = calculation.CalculatePreserveSet(numbers);
-                    Console.WriteLine(inform);
-                    using (StreamWriter writer = new StreamWriter(Constants.PATH_FILE_TXT, true))
-                    {
-                        writer.WriteLine("Принадлежность классу функций, сохраняющих множество E: ");
-                        writer.WriteLine(inform);
-                        writer.WriteLine("\n");
-                    }
-                    break;
+            //while (true)
+            //{
+            //    if (stringHelper.IsCorrect(k))
+            //    {
+            //        string time = DateTime.Now.ToString();
+            //        using (StreamWriter writer = new StreamWriter(Constants.PATH_FILE_TXT, true))
+            //        {
+            //            writer.WriteLine($"ВРЕМЯ: {time}\n");
+            //            writer.WriteLine($"Исходная формула: {expression}\n");
+            //        }
 
-                }
-                else
-                {
-                    Console.WriteLine("Введите корректно формулу!");
-                }
-            }
-            Console.WriteLine("Программа завершила работу!");
+            //        Calculation calculation = new Calculation(k, n);
+            //        calculation.Calculate(expression);
+            //        string information = calculation.PrintTable();
+            //        using (StreamWriter writer = new StreamWriter(Constants.PATH_FILE_TXT, true))
+            //        {
+            //            writer.WriteLine(information);
+            //        }
 
-            Console.WriteLine("dddd");
-            Console.WriteLine("dddd");
-            Console.WriteLine("dddd");
-            Console.WriteLine("dddd");
-            Console.WriteLine("dddd");
+            //        Console.WriteLine("Первая форма:");
+            //        string first_Form = calculation.FirstForm;
+            //        Console.WriteLine(first_Form);
+            //        using (StreamWriter writer = new StreamWriter(Constants.PATH_FILE_TXT, true))
+            //        {
+            //            writer.WriteLine("Первая форма: ");
+            //            writer.WriteLine(first_Form);
+            //        }
+
+            //        Console.WriteLine("Принадлежность классу функций, сохраняющих множество E: ");
+            //        Console.Write("Введи E = ");
+            //        IEnumerable<int> numbers = Console.ReadLine().Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries).Select(x => Convert.ToInt32(x)).Distinct();
+            //        string inform = calculation.CalculatePreserveSet(numbers);
+            //        Console.WriteLine(inform);
+            //        using (StreamWriter writer = new StreamWriter(Constants.PATH_FILE_TXT, true))
+            //        {
+            //            writer.WriteLine("Принадлежность классу функций, сохраняющих множество E: ");
+            //            writer.WriteLine(inform);
+            //            writer.WriteLine("\n");
+            //        }
+            //        break;
+
+            //    }
+            //    else
+            //    {
+            //        Console.WriteLine("Введите корректно формулу!");
+            //    }
+            //}
+            //Console.WriteLine("Программа завершила работу!");
+
+            //Console.WriteLine("dddd");
+            //Console.WriteLine("dddd");
+            //Console.WriteLine("dddd");
+            //Console.WriteLine("dddd");
+            //Console.WriteLine("dddd");
         }
     }
 }
