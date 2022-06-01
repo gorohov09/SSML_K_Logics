@@ -157,82 +157,12 @@ namespace SSML_K_Logics.K_DigitLogic
 
         private string CalculateFirstForm()
         {
-            int[] arrayResult = _priority.Peek();
-            StringBuilder sb = new StringBuilder("f(x) = ");
-
-            if (_n == 1)
-            {
-                for (int i = 0; i < _countRow; i++)
-                {
-                    if (arrayResult[i] == 0) 
-                        continue;
-                    else if (arrayResult[i] == _k - 1)
-                        sb.Append($" J_{_variables["x"][i]}(x) v");
-                    else 
-                        sb.Append($" {arrayResult[i]}&J_{_variables["x"][i]}(x) v");
-                }
-            }
-            else
-            {
-                for (int i = 0; i < _countRow; i++)
-                {
-                    if (arrayResult[i] == 0)
-                        continue;
-                    else if (arrayResult[i] == _k - 1)
-                        sb.Append($" J_{_variables["x"][i]}(x)&J_{_variables["y"][i]}(y) v");
-                    else
-                        sb.Append($" {arrayResult[i]}&J_{_variables["x"][i]}(x)&J_{_variables["y"][i]}(y) v");
-                }
-            }
-            sb.Remove(sb.Length - 2, 2);
-            return sb.ToString();
+            return null;
         }
 
         public string CalculatePreserveSet(IEnumerable<int> hashSet)
         {
-            if (hashSet.Any(x => x >= _k))
-                throw new ArgumentException("В множестве содержится число большее или равное k");
-            int[] arrayResult = _priority.Peek();
-            StringBuilder sb = new StringBuilder("E = { ");
-            foreach (var x in hashSet)
-            {
-                sb.Append($"{x}, ");
-            }
-            sb.Remove(sb.Length - 2, 1);
-            sb.Append("}");
-
-            bool flag = true;
-            if (_n == 1)
-            {
-                for (int i = 0; i < _countRow; i++)
-                {
-                    if (hashSet.Contains(_variables["x"][i]))
-                    {
-                        if (!hashSet.Contains(arrayResult[i]))
-                            flag = false; break;
-                        
-                    } 
-                }
-            }
-            else
-            {
-                for (int i = 0; i < _countRow; i++)
-                {
-                    if (hashSet.Contains(_variables["x"][i]) && hashSet.Contains(_variables["y"][i]))
-                    {
-                        if (!hashSet.Contains(arrayResult[i]))
-                            flag = false; break;
-
-                    }
-                }
-            }
-
-            if (flag)
-                sb.AppendLine("\nf(x) принадлежит E");
-            else
-                sb.AppendLine("\nf(x) не принадлежит E");
-
-            return sb.ToString();
+            return null;
         }
 
         public string PrintTable()
